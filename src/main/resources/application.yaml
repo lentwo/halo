@@ -1,14 +1,48 @@
 server:
   port: 8090
+    # HTTP请求和响应头的最大量，以字节为单位，默认值为4096字节,超过此长度的部分不予处理,一般8K。解决java.io.EOFException: null问题
+  max-http-header-size: 8192
+  use-forward-headers: true
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: text/plain,text/css,text/xml,text/javascript,application/json,application/javascript,application/xml,application/xml+rss,application/x-javascript,application/x-httpd-php,image/jpeg,image/gif,image/png
+  undertow:
+    io-threads : 2
+    worker-threads: 32
+    buffer-size: 1024
+    directBuffers: true
+#    maxHttpPostSize: 2048
+#spring:
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#
+#    # H2database 配置
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:file:~/halo/halo
+#    username: admin
+#    password: 123456
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://ip:port/halodb?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: root
+    password: pwd
+    hikari :
+      maximum-pool-size: 15
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+        enableQueryTimeouts: false
 
-    # H2database 配置
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/halo/halo
-    username: admin
-    password: 123456
 
     #MySql配置
 #    driver-class-name: com.mysql.jdbc.Driver
@@ -16,12 +50,12 @@ spring:
 #    username: root
 #    password: 123456
 
-  h2:
-    console:
-      settings:
-        web-allow-others: true
-      path: /h2-console
-      enabled: true
+#  h2:
+#    console:
+#      settings:
+#        web-allow-others: true
+#      path: /h2-console
+#      enabled: true
   jpa:
     hibernate:
       ddl-auto: update

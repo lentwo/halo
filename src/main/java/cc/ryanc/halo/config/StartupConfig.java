@@ -43,8 +43,8 @@ public class StartupConfig implements ApplicationListener<ContextRefreshedEvent>
         this.loadFiles();
         this.loadThemes();
         //启动定时任务
-        CronUtil.start();
-        log.info("定时任务启动成功！");
+//        CronUtil.start();
+//        log.info("定时任务启动成功！");
     }
 
     /**
